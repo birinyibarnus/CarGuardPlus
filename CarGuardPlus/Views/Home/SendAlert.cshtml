@@ -1,0 +1,19 @@
+@{
+    ViewData["Title"] = "Send Alert";
+}
+
+<h1 class="mb-4">@ViewData["Title"]</h1>
+<form id="alertForm">
+    <div class="form-group mb-3">
+        <label for="licenseNumber">Enter Car License Number:</label>
+        <input type="text" class="form-control" id="licenseNumber" name="licenseNumber" required>
+    </div>
+    <div class="form-group mb-3">
+        <label for="alertMessage">Enter the message:</label>
+        <input type="text" class="form-control" id="alertMessage" name="alertMessage" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Send Alert</button>
+</form>
+<div id="alertMessage" class="mt-4 alert alert-success d-none">
+    Alert sent for License Number: <span id="alertLicenseNumber"></span>
+</div>

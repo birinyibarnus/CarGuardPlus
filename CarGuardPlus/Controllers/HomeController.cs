@@ -23,6 +23,21 @@ namespace CarGuardPlus.Controllers
             return View();
         }
 
+        public IActionResult Sendalert()
+        {
+            return View();
+        }
+
+        public IActionResult MyAlerts()
+        {
+            return View();
+        }
+
+        public IActionResult AddLicenceNumber()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

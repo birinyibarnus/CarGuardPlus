@@ -1,0 +1,23 @@
+@{
+    ViewData["Title"] = "My licenses";
+}
+
+<h1 class="mb-4">@ViewData["Title"]</h1>
+<form id="licenceForm">
+    <div class="form-group mb-3">
+        <label for="licenseNumber">Enter New License Number:</label>
+        <input type="text" class="form-control" id="licenseNumber" name="licenseNumber" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Add License Number</button>
+</form>
+
+<div class="alert-list mt-3">
+    <div class="alert alert-primary" role="alert">
+        <p><strong>License Number:</strong> ABC123</p>
+        <button type="submit" class="btn btn-primary">Delete</button>
+    </div>
+    <div class="alert alert-primary" role="alert">
+        <p><strong>License Number:</strong> XYZ987</p>
+        <button type="submit" class="btn btn-primary">Delete</button>
+    </div>
+</div>

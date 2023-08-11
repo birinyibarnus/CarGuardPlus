@@ -13,6 +13,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
     }
 
+    public DbSet<AlertMessage> AlertMessages { get; set; }
+    public DbSet<Licence> Licences { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -21,6 +24,12 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         // Add your customizations after calling base.OnModelCreating(builder);
 
         builder.ApplyConfiguration(new ApplicationUserEntityConfiguration());
+        builder.Entity<AlertMessage>()
+        .HasOne(am => am.SenderUser)   
+        .WithMany(u => u.SentAlertMessages)   
+        .HasForeignKey(am => am.SenderUserId)   
+        .IsRequired(false);
+
     }
 
     public class ApplicationUserEntityConfiguration : IEntityTypeConfiguration<ApplicationUser>
@@ -29,6 +38,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         {
             builder.Property(u => u.FirstName).HasMaxLength(255);
             builder.Property(u => u.LastName).HasMaxLength(255);
+
         }
     }
 }

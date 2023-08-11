@@ -1,4 +1,5 @@
 using CarGuardPlus.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -13,6 +14,7 @@ namespace CarGuardPlus.Controllers
             _logger = logger;
         }
 
+        [Authorize(Policy = "AdminOnly")]
         public IActionResult AdminIndex()
         {
             return View();

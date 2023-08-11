@@ -11,6 +11,8 @@ public class ApplicationUser : IdentityUser
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }
-
+    public List<Licence> Licences { get; set; }
+    public List<AlertMessage> SentAlertMessages { get; set; }
+    public List<AlertMessage> ReceivedAlertMessages { get; set; }
 }
 

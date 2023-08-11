@@ -4,6 +4,7 @@ using CarGuardPlus.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarGuardPlus.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230802124602_SeedRoles")]
+    partial class SeedRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,45 +24,6 @@ namespace CarGuardPlus.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("CarGuardPlus.Areas.Identity.Data.AlertMessage", b =>
-                {
-                    b.Property<int>("AlertMessageId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AlertMessageId"));
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("LicenceId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ReceiverUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SenderUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("Timestamp")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("AlertMessageId");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("LicenceId");
-
-                    b.HasIndex("SenderUserId");
-
-                    b.ToTable("AlertMessages");
-                });
 
             modelBuilder.Entity("CarGuardPlus.Areas.Identity.Data.ApplicationUser", b =>
                 {
@@ -134,29 +98,6 @@ namespace CarGuardPlus.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("CarGuardPlus.Areas.Identity.Data.Licence", b =>
-                {
-                    b.Property<int>("LicenceId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LicenceId"));
-
-                    b.Property<string>("LicencePlate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("LicenceId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Licences");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -296,34 +237,6 @@ namespace CarGuardPlus.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CarGuardPlus.Areas.Identity.Data.AlertMessage", b =>
-                {
-                    b.HasOne("CarGuardPlus.Areas.Identity.Data.ApplicationUser", null)
-                        .WithMany("ReceivedAlertMessages")
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.HasOne("CarGuardPlus.Areas.Identity.Data.Licence", null)
-                        .WithMany("ReceivedAlertMessages")
-                        .HasForeignKey("LicenceId");
-
-                    b.HasOne("CarGuardPlus.Areas.Identity.Data.ApplicationUser", "SenderUser")
-                        .WithMany("SentAlertMessages")
-                        .HasForeignKey("SenderUserId");
-
-                    b.Navigation("SenderUser");
-                });
-
-            modelBuilder.Entity("CarGuardPlus.Areas.Identity.Data.Licence", b =>
-                {
-                    b.HasOne("CarGuardPlus.Areas.Identity.Data.ApplicationUser", "User")
-                        .WithMany("Licences")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -373,20 +286,6 @@ namespace CarGuardPlus.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("CarGuardPlus.Areas.Identity.Data.ApplicationUser", b =>
-                {
-                    b.Navigation("Licences");
-
-                    b.Navigation("ReceivedAlertMessages");
-
-                    b.Navigation("SentAlertMessages");
-                });
-
-            modelBuilder.Entity("CarGuardPlus.Areas.Identity.Data.Licence", b =>
-                {
-                    b.Navigation("ReceivedAlertMessages");
                 });
 #pragma warning restore 612, 618
         }

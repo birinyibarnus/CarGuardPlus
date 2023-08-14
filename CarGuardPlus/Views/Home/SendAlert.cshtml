@@ -3,14 +3,14 @@
 }
 
 <h1 class="mb-4">@ViewData["Title"]</h1>
-<form id="alertForm">
+<form id="alertForm" method="post" action="/Home/SendAlert">
     <div class="form-group mb-3">
         <label for="licenseNumber">Enter Car License Number:</label>
-        <input type="text" class="form-control" id="licenseNumber" name="licenseNumber" required>
+        <input type="text" name="licence" placeholder="Licence Plate" class="form-control" id="licenseNumber" required>
     </div>
     <div class="form-group mb-3">
         <label for="alertMessage">Enter the message:</label>
-        <input type="text" class="form-control" id="alertMessage" name="alertMessage" required>
+        <input type="text" name="message" placeholder="Message" class="form-control" id="alertMessage" required>
     </div>
     <button type="submit" class="btn btn-primary">Send Alert</button>
 </form>

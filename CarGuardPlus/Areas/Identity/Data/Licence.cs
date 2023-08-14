@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using CarGuardPlus.BLL;
+using Microsoft.AspNetCore.Identity;
 
 namespace CarGuardPlus.Areas.Identity.Data
 {

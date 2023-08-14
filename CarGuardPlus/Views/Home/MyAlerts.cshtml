@@ -1,15 +1,16 @@
+@using CarGuardPlus.Areas.Identity.Data
+@model IAsyncEnumerable<AlertMessage>
 @{
     ViewData["Title"] = "My alerts";
 }
 
 <h1 class="mb-4">My Alerts</h1>
 <div class="alert-list">
-    <div class="alert alert-primary" role="alert">
-        <p><strong>License Number:</strong> ABC123</p>
-        <p><strong>Message:</strong> This is your first alert!</p>
-    </div>
-    <div class="alert alert-primary" role="alert">
-        <p><strong>License Number:</strong> XYZ987</p>
-        <p><strong>Message:</strong> Another important alert!</p>
-    </div>
+    @await foreach (var item in Model)
+    {
+        <div class="alert alert-primary" role="alert">
+            <p><strong>Date: </strong>@item.Timestamp</p>
+            <p><strong>Message: </strong>@item.Message</p>
+        </div>
+    }
 </div>

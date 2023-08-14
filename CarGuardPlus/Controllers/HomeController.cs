@@ -1,4 +1,5 @@
-﻿using CarGuardPlus.Models;
+﻿using CarGuardPlus.BLL;
+using CarGuardPlus.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -9,10 +10,14 @@ namespace CarGuardPlus.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ISendAlertService _sendAlertService;
+        private readonly IMyAlertService _myAlertService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ISendAlertService sendAlertService, IMyAlertService myAlertService)
         {
             _logger = logger;
+            _sendAlertService = sendAlertService;
+            _myAlertService = myAlertService;
         }
 
         public IActionResult Index()
@@ -24,15 +29,21 @@ namespace CarGuardPlus.Controllers
         {
             return View();
         }
-
-        public IActionResult Sendalert()
+        [HttpPost]
+        public IActionResult SendAlert(string licence, string message)
+        {
+            _sendAlertService.SendAlert(licence, message);
+            return View();
+        }
+        public IActionResult SendAlert()
         {
             return View();
         }
 
         public IActionResult MyAlerts()
         {
-            return View();
+            var alerts = _myAlertService.GetAlerts();
+            return View(alerts);
         }
 
         public IActionResult AddLicenceNumber()

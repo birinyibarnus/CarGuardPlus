@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using CarGuardPlus.Areas.Identity.Data;
+using CarGuardPlus.BLL;
+
 namespace CarGuardPlus
 {
     public class Program
@@ -16,6 +18,10 @@ namespace CarGuardPlus
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<ISendAlertService,SendAlertService>();
+            builder.Services.AddScoped<IMyAlertService, MyAlertService>();
+            builder.Services.AddHttpContextAccessor();
+
 
             #region Authorization
             AddAuthorizationPolicies(builder.Services);
@@ -46,7 +52,7 @@ namespace CarGuardPlus
 
             app.Run();
 
-            void AddAuthorizationPolicies (IServiceCollection services)
+            void AddAuthorizationPolicies(IServiceCollection services)
             {
                 services.AddAuthorization(options =>
                 {

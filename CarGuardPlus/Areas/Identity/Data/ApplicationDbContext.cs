@@ -8,10 +8,12 @@ namespace CarGuardPlus.Areas.Identity.Data;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
+    public ApplicationDbContext()
     {
     }
+
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        : base(options) {}
 
     public DbSet<AlertMessage> AlertMessages { get; set; }
     public DbSet<Licence> Licences { get; set; }

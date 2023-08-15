@@ -43,8 +43,7 @@ namespace CarGuardPlus.BLL
                 };
                 bool isExisting = await LicenceAlreadyExist(licence.LicencePlate);
                 if (isExisting)
-                    throw new InvalidOperationException("The LicencePlate is already exist!");
-
+                    return;
                 _context.Licences.Add(licence);
                 await _context.SaveChangesAsync();
                 transaction.Commit();

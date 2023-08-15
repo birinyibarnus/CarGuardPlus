@@ -9,6 +9,7 @@
     <div class="form-group mb-3">
         <label for="licenseNumber">Enter New License Number:</label>
         <input type="text" name="licence" class="form-control" id="licenseNumber" name="licenseNumber" required>
+        <span class="text-danger" id="errorSpan"></span>
     </div>
     <button type="submit" class="btn btn-primary">Add License Number</button>
 </form>
@@ -17,7 +18,7 @@
     <form action="/Home/DeleteLicence" id="licenceForm" method="post">
         <div class="alert-list mt-3">
             <div class="alert alert-primary" role="alert">
-                <p><strong>License Number:</strong>@item.LicencePlate</p>
+                <p><strong>License Number: </strong>@item.LicencePlate</p>
                 <button asp-action="DeleteLicence" asp-route-licence="@item.LicencePlate" type="submit" class="btn btn-primary">Delete</button>
             </div>
         </div>

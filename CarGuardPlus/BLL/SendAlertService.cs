@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CarGuardPlus.BLL
 {
@@ -21,6 +22,10 @@ namespace CarGuardPlus.BLL
         }
         public async Task SendAlert(string licence, string message)
         {
+            if (GetLicence(licence) == null)
+            {
+                return;
+            }
             var transaction = _context.Database.BeginTransaction();
             try
             {
@@ -33,7 +38,8 @@ namespace CarGuardPlus.BLL
                     ReceiverUser = recieverUser,
                     ReceiverUserId = recieverUser.Id,
                     SenderUser = currentUser,
-                    SenderUserId = currentUser.Id
+                    SenderUserId = currentUser.Id,
+                    LicenceNumber = licence
                 };
 
                 _context.AlertMessages.Add(alert);

@@ -15,7 +15,7 @@ namespace CarGuardPlus.Areas.Identity.Data
         public string ReceiverUserId { get; set; }
         [NotMapped]
         public ApplicationUser ReceiverUser { get; set; }
-
+        public string LicenceNumber { get; set; }
         public DateTime Timestamp { get; set; }
     }
 }

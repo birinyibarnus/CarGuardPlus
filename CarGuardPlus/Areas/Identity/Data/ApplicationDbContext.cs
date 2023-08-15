@@ -6,14 +6,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CarGuardPlus.Areas.Identity.Data;
 
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
 {
     public ApplicationDbContext()
     {
     }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options) {}
+        : base(options) { }
 
     public DbSet<AlertMessage> AlertMessages { get; set; }
     public DbSet<Licence> Licences { get; set; }
@@ -27,9 +27,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         builder.ApplyConfiguration(new ApplicationUserEntityConfiguration());
         builder.Entity<AlertMessage>()
-        .HasOne(am => am.SenderUser)   
-        .WithMany(u => u.SentAlertMessages)   
-        .HasForeignKey(am => am.SenderUserId)   
+        .HasOne(am => am.SenderUser)
+        .WithMany(u => u.SentAlertMessages)
+        .HasForeignKey(am => am.SenderUserId)
         .IsRequired(false);
 
     }
@@ -43,4 +43,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         }
     }
+}
+public interface IApplicationDbContext
+{
+    DbSet<AlertMessage> AlertMessages { get; set; }
+    DbSet<Licence> Licences { get; set; }
 }

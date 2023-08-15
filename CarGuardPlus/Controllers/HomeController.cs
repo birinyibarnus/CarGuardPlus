@@ -30,16 +30,16 @@ namespace CarGuardPlus.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult SendAlert(string licence, string message)
+        public async Task<IActionResult> SendAlert(string licence, string message)
         {
-            _sendAlertService.SendAlert(licence, message);
-            return View();
+            await _sendAlertService.SendAlert(licence, message);
+            return RedirectToAction("SendAlert");
         }
         public IActionResult SendAlert()
         {
             return View();
         }
-
+        [HttpGet]
         public IActionResult MyAlerts()
         {
             var alerts = _myAlertService.GetAlerts();

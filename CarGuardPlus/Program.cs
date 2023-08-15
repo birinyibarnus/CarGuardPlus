@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using CarGuardPlus.Areas.Identity.Data;
 using CarGuardPlus.BLL;
+using CarGuardPlus.Hubs;
 
 namespace CarGuardPlus
 {
@@ -12,7 +13,7 @@ namespace CarGuardPlus
             var builder = WebApplication.CreateBuilder(args);
             var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
 
-            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString), ServiceLifetime.Scoped);
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -20,9 +21,10 @@ namespace CarGuardPlus
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<ISendAlertService,SendAlertService>();
             builder.Services.AddScoped<IMyAlertService, MyAlertService>();
+            builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+            builder.Services.AddScoped<SendAlertService>();
             builder.Services.AddHttpContextAccessor();
-
-
+            builder.Services.AddSignalR();
             #region Authorization
             AddAuthorizationPolicies(builder.Services);
             #endregion
@@ -49,7 +51,7 @@ namespace CarGuardPlus
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.MapRazorPages();
-
+            app.MapHub<ChatHub>("/chathub");
             app.Run();
 
             void AddAuthorizationPolicies(IServiceCollection services)

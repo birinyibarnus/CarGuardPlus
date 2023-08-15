@@ -24,8 +24,8 @@ namespace CarGuardPlus.BLL
             var alerts = await _context.AlertMessages
                 .Where(x => x.ReceiverUserId == Convert.ToString(currentUser.Id))
                 .ToListAsync();
-
-            foreach (var alert in alerts)
+            var sortedAlerts = alerts.OrderByDescending(x => x.Timestamp);
+            foreach (var alert in sortedAlerts)
             {
                 yield return alert;
             }

@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using CarGuardPlus.Areas.Identity.Data;
 using CarGuardPlus.BLL;
-using CarGuardPlus.Hubs;
 
 namespace CarGuardPlus
 {
@@ -52,7 +51,6 @@ namespace CarGuardPlus
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.MapRazorPages();
-            app.MapHub<ChatHub>("/chathub");
             app.Run();
 
             void AddAuthorizationPolicies(IServiceCollection services)

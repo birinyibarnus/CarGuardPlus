@@ -9,10 +9,7 @@ namespace CarGuardPlus.BLL
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
-        public MyAlertService(
-            IHttpContextAccessor contextAccessor,
-            UserManager<ApplicationUser> userManager,
-            ApplicationDbContext context)
+        public MyAlertService(IHttpContextAccessor contextAccessor, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         {
             _contextAccessor = contextAccessor;
             _userManager = userManager;
@@ -30,7 +27,6 @@ namespace CarGuardPlus.BLL
                 yield return alert;
             }
         }
-
     }
     public interface IMyAlertService
     {

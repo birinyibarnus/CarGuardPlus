@@ -12,12 +12,14 @@ namespace CarGuardPlus.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ISendAlertService _sendAlertService;
         private readonly IMyAlertService _myAlertService;
+        private readonly IMyLicencesService _myLicencesService;
 
-        public HomeController(ILogger<HomeController> logger, ISendAlertService sendAlertService, IMyAlertService myAlertService)
+        public HomeController(ILogger<HomeController> logger, ISendAlertService sendAlertService, IMyAlertService myAlertService, IMyLicencesService myLicencesService)
         {
             _logger = logger;
             _sendAlertService = sendAlertService;
             _myAlertService = myAlertService;
+            _myLicencesService = myLicencesService;
         }
 
         public IActionResult Index()
@@ -45,10 +47,21 @@ namespace CarGuardPlus.Controllers
             var alerts = _myAlertService.GetAlerts();
             return View(alerts);
         }
-
+        [HttpPost]
+        public async Task<IActionResult> AddLicence(string licence)
+        {
+            await _myLicencesService.AddLicencePlate(licence);
+            return RedirectToAction("AddLicenceNumber");
+        }
+        public async Task<IActionResult> DeleteLicence(string licence)
+        {
+            await _myLicencesService.DeleteLicencePlate(licence);
+            return RedirectToAction("AddLicenceNumber");
+        }
         public IActionResult AddLicenceNumber()
         {
-            return View();
+            var licences = _myLicencesService.GetLicences();
+            return View(licences);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

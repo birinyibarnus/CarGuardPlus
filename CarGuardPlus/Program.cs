@@ -21,6 +21,7 @@ namespace CarGuardPlus
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<ISendAlertService,SendAlertService>();
             builder.Services.AddScoped<IMyAlertService, MyAlertService>();
+            builder.Services.AddScoped<IMyLicencesService, MyLicencesService>();
             builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
             builder.Services.AddScoped<SendAlertService>();
             builder.Services.AddHttpContextAccessor();

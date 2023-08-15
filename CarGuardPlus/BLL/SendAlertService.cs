@@ -10,7 +10,10 @@ namespace CarGuardPlus.BLL
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHttpContextAccessor _contextAccessor;
-        public SendAlertService(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IHttpContextAccessor contextAccessor)
+        public SendAlertService
+            (ApplicationDbContext context,
+            IHttpContextAccessor contextAccessor,
+            UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _contextAccessor = contextAccessor;

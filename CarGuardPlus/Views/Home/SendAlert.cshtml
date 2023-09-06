@@ -1,3 +1,4 @@
+@model SendAlertViewModel
 @{
     ViewData["Title"] = "Send Alert";
 }
@@ -7,6 +8,12 @@
     <div class="form-group mb-3">
         <label for="licenseNumber">Enter Car License Number:</label>
         <input type="text" name="licence" placeholder="Licence Plate" class="form-control" id="licenseNumber" required>
+        @if (!Model.LicenceIsValid)
+        {
+            <div class="alert alert-danger" style="margin-top: 5px" role="alert">
+                <strong>Oh no!</strong> The licence not found!
+            </div>
+        }
     </div>
     <div class="form-group mb-3">
         <label for="alertMessage">Enter the message:</label>

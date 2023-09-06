@@ -1,4 +1,5 @@
 ﻿using CarGuardPlus.Areas.Identity.Data;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,10 +23,6 @@ namespace CarGuardPlus.BLL
         }
         public async Task SendAlert(string licence, string message)
         {
-            if (GetLicence(licence) == null)
-            {
-                return;
-            }
             var transaction = _context.Database.BeginTransaction();
             try
             {

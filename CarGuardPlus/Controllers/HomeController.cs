@@ -34,12 +34,19 @@ namespace CarGuardPlus.Controllers
         [HttpPost]
         public async Task<IActionResult> SendAlert(string licence, string message)
         {
+            if(_sendAlertService.GetLicence(licence) is null)
+            {
+                SendAlertViewModel sendAlertViewModel = new();
+                sendAlertViewModel.LicenceIsValid = false;
+                return View(sendAlertViewModel);
+            }            
             await _sendAlertService.SendAlert(licence, message);
-            return RedirectToAction("SendAlert");
+            return SendAlert();
         }
         public IActionResult SendAlert()
         {
-            return View();
+            SendAlertViewModel sendAlertViewModel = new();
+            return View(sendAlertViewModel);
         }
         [HttpGet]
         public IActionResult MyAlerts()

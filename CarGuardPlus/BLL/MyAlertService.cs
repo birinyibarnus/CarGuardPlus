@@ -19,8 +19,7 @@ namespace CarGuardPlus.BLL
         {
             var currentUser = await _userManager.GetUserAsync(_contextAccessor.HttpContext.User);
             var alerts = await _context.AlertMessages
-                .Where(x => x.ReceiverUserId == Convert.ToString(currentUser.Id))
-                .ToListAsync();
+                .Where(x => x.ReceiverUserId == Convert.ToString(currentUser.Id)).ToListAsync();
             var sortedAlerts = alerts.OrderByDescending(x => x.Timestamp);
             foreach (var alert in sortedAlerts)
             {

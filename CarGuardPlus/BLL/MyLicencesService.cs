@@ -19,15 +19,18 @@ namespace CarGuardPlus.BLL
         public async IAsyncEnumerable<Licence> GetLicences()
         {
             ApplicationUser currentUser = await _userManager.GetUserAsync(_contextAccessor.HttpContext.User);
-            var licences = await _context.Licences
-                .Where(x => x.UserId == Convert.ToString(currentUser.Id))
-                .ToListAsync();
-            foreach (var licence in licences)
+            if (currentUser is not null)
             {
-                yield return licence;
+                var licences = await _context.Licences
+                    .Where(x => x.UserId == Convert.ToString(currentUser.Id))
+                    .ToListAsync();
+                foreach (var licence in licences)
+                {
+                    yield return licence;
+                }
             }
         }
-        public async Task AddLicencePlate(string licencePlate)
+        public async Task<bool> AddLicencePlate(string licencePlate)
         {
             var transaction = _context.Database.BeginTransaction();
             try
@@ -41,12 +44,13 @@ namespace CarGuardPlus.BLL
                     UserId = currentUser.Id,
                     ReceivedAlertMessages = currentUser.ReceivedAlertMessages
                 };
-                bool isExisting = await LicenceAlreadyExist(licence.LicencePlate);
-                if (isExisting)
-                    return;
-                _context.Licences.Add(licence);
-                await _context.SaveChangesAsync();
-                transaction.Commit();
+                if (!LicenceAlreadyExist(licence.LicencePlate))
+                {
+                    _context.Licences.Add(licence);
+                    await _context.SaveChangesAsync();
+                    transaction.Commit();
+                    return true;
+                }
             }
             catch (Exception ex)
             {
@@ -54,10 +58,11 @@ namespace CarGuardPlus.BLL
                 Console.WriteLine($"Exception: {ex.Message}");
                 throw;
             }
+            return false;
         }
-        public async Task<bool> LicenceAlreadyExist(string licencePlate)
+        public bool LicenceAlreadyExist(string licencePlate)
         {
-            return await _context.Licences.AnyAsync(x => x.LicencePlate == licencePlate);
+            return  _context.Licences.Any(x => x.LicencePlate == licencePlate);
         }
         public async Task DeleteLicencePlate(string licencePlate)
         {
@@ -71,7 +76,8 @@ namespace CarGuardPlus.BLL
     public interface IMyLicencesService
     {
         IAsyncEnumerable<Licence> GetLicences();
-        Task AddLicencePlate(string licencePlate);
+        Task<bool> AddLicencePlate(string licencePlate);
         Task DeleteLicencePlate(string licencePlate);
+        bool LicenceAlreadyExist(string licencePlate);
     }
 }

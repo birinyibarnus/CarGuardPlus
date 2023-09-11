@@ -1,19 +1,24 @@
 @using CarGuardPlus.Areas.Identity.Data
-@model IAsyncEnumerable<Licence>
+@model AddLicenceNumberViewModel
 @{
     ViewData["Title"] = "My licenses";
 }
 
 <h1 class="mb-4">@ViewData["Title"]</h1>
-<form action="/Home/AddLicence" id="licenceForm" method="post">
+<form action="/Home/AddLicenceNumber" id="licenceForm" method="post">
     <div class="form-group mb-3">
         <label for="licenseNumber">Enter New License Number:</label>
         <input type="text" name="licence" class="form-control" id="licenseNumber" name="licenseNumber" required>
-        <span class="text-danger" id="errorSpan"></span>
+        @if (Model.LicenceAlreadyExist)
+        {
+            <div class="alert alert-danger" style="margin-top: 5px" role="alert">
+                <strong>Oh no!</strong> The licence is already exist!
+            </div>
+        }
     </div>
     <button type="submit" class="btn btn-primary">Add License Number</button>
 </form>
-@await foreach (var item in Model)
+@await foreach (var item in Model.ListOfLicences)
 {
     <form action="/Home/DeleteLicence" id="licenceForm" method="post">
         <div class="alert-list mt-3">

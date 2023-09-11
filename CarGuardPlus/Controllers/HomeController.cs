@@ -34,12 +34,12 @@ namespace CarGuardPlus.Controllers
         [HttpPost]
         public async Task<IActionResult> SendAlert(string licence, string message)
         {
-            if(_sendAlertService.GetLicence(licence) is null)
+            if (_sendAlertService.GetLicence(licence) is null)
             {
                 SendAlertViewModel sendAlertViewModel = new();
                 sendAlertViewModel.LicenceIsValid = false;
                 return View(sendAlertViewModel);
-            }            
+            }
             await _sendAlertService.SendAlert(licence, message);
             return SendAlert();
         }
@@ -48,27 +48,41 @@ namespace CarGuardPlus.Controllers
             SendAlertViewModel sendAlertViewModel = new();
             return View(sendAlertViewModel);
         }
+        [HttpPost]
+        public async Task<IActionResult> AddLicenceNumber(string licence)
+        {
+            if (_myLicencesService.LicenceAlreadyExist(licence) == true)
+            {
+                AddLicenceNumberViewModel viewModel = new();
+                viewModel.LicenceAlreadyExist = true;
+                viewModel.ListOfLicences = _myLicencesService.GetLicences();
+                return View(viewModel);
+            }
+            if (licence is not null)
+            {
+               await _myLicencesService.AddLicencePlate(licence);
+            }
+            return AddLicenceNumber();
+        }
+        public IActionResult AddLicenceNumber()
+        {
+            AddLicenceNumberViewModel addLicenceNumberViewModel = new AddLicenceNumberViewModel
+            {
+                ListOfLicences = _myLicencesService.GetLicences()
+            };
+            return View(addLicenceNumberViewModel);
+        }
         [HttpGet]
         public IActionResult MyAlerts()
         {
             var alerts = _myAlertService.GetAlerts();
             return View(alerts);
         }
-        [HttpPost]
-        public async Task<IActionResult> AddLicence(string licence)
-        {
-            await _myLicencesService.AddLicencePlate(licence);
-            return RedirectToAction("AddLicenceNumber");
-        }
+        [HttpDelete]
         public async Task<IActionResult> DeleteLicence(string licence)
         {
             await _myLicencesService.DeleteLicencePlate(licence);
             return RedirectToAction("AddLicenceNumber");
-        }
-        public IActionResult AddLicenceNumber()
-        {
-            var licences = _myLicencesService.GetLicences();
-            return View(licences);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

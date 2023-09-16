@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using CarGuardPlus.Areas.Identity.Data;
 using CarGuardPlus.BLL;
+using CarGuardPlus.Models;
 
 namespace CarGuardPlus
 {
@@ -23,6 +24,7 @@ namespace CarGuardPlus
             builder.Services.AddScoped<IMyLicencesService, MyLicencesService>();
             builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
             builder.Services.AddScoped<SendAlertService>();
+            builder.Services.AddScoped<SendAlertViewModel>();
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddSignalR();
             #region Authorization

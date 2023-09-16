@@ -8,13 +8,13 @@
     <div class="form-group mb-3">
         <label for="licenseNumber">Enter Car License Number:</label>
         <input type="text" name="licence" placeholder="Licence Plate" class="form-control" id="licenseNumber" required>
-        @if (!Model.LicenceIsValid)
+        @if (Model.LicenceIsValid == 1)
         {
             <div class="alert alert-danger" style="margin-top: 5px" role="alert">
                 <strong>Oh no!</strong> The licence not found!
             </div>
         }
-        else
+        else if (Model.LicenceIsValid == 2)
         {
             <div class="alert alert-success" style="margin-top: 5px" role="alert">
                 <strong>Ok!</strong> Message sent!

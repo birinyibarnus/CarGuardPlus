@@ -13,13 +13,19 @@ namespace CarGuardPlus.Controllers
         private readonly ISendAlertService _sendAlertService;
         private readonly IMyAlertService _myAlertService;
         private readonly IMyLicencesService _myLicencesService;
+        private readonly SendAlertViewModel _sendAlertViewModel;
 
-        public HomeController(ILogger<HomeController> logger, ISendAlertService sendAlertService, IMyAlertService myAlertService, IMyLicencesService myLicencesService)
+        public HomeController(ILogger<HomeController> logger,
+            ISendAlertService sendAlertService,
+            IMyAlertService myAlertService,
+            IMyLicencesService myLicencesService,
+            SendAlertViewModel sendAlertViewModel)
         {
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _sendAlertService = sendAlertService;
             _myAlertService = myAlertService;
             _myLicencesService = myLicencesService;
+            _sendAlertViewModel = sendAlertViewModel;
         }
 
         public IActionResult Index()
@@ -36,17 +42,16 @@ namespace CarGuardPlus.Controllers
         {
             if (_sendAlertService.GetLicence(licence) is null)
             {
-                SendAlertViewModel sendAlertViewModel = new();
-                sendAlertViewModel.LicenceIsValid = false;
-                return View(sendAlertViewModel);
+                _sendAlertViewModel.LicenceIsValid = 1;
+                return View(_sendAlertViewModel);
             }
+            _sendAlertViewModel.LicenceIsValid = 2;
             await _sendAlertService.SendAlert(licence, message);
             return SendAlert();
         }
         public IActionResult SendAlert()
         {
-            SendAlertViewModel sendAlertViewModel = new();
-            return View(sendAlertViewModel);
+            return View(_sendAlertViewModel);
         }
         [HttpPost]
         public async Task<IActionResult> AddLicenceNumber(string licence)

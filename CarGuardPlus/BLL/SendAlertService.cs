@@ -38,7 +38,6 @@ namespace CarGuardPlus.BLL
                     SenderUserId = currentUser.Id,
                     LicenceNumber = licence
                 };
-
                 _context.AlertMessages.Add(alert);
                 await _context.SaveChangesAsync();
                 transaction.Commit();
@@ -51,9 +50,9 @@ namespace CarGuardPlus.BLL
             }
         }
 
-        public Licence? GetLicence(string licence)
+        public Licence GetLicence(string licence)
         {
-            return _context.Licences.Where(x => x.LicencePlate == licence).FirstOrDefault();
+             return _context.Licences.FirstOrDefault(x => x.LicencePlate == licence);
         }
     }
     public interface ISendAlertService
